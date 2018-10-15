@@ -130,6 +130,18 @@ namespace StudentExercises {
             foreach (Instructor Instructor in instructorsInCohort27) {
                 Console.WriteLine ($"Instructor for Cohort 27: {Instructor.FirstName} {Instructor.LastName}");
             }
+
+            //Sort the students by their last name.
+
+            IEnumerable<Student> studentLastNameSort = from student in students 
+                orderby student.LastName
+                select student;
+            
+            foreach (Student student in studentLastNameSort) {
+                Console.WriteLine ($"{student.FirstName} {student.LastName}");
+            }
+
+            // Display any students that aren't working on any exercises (Make sure one of your student instances don't have any exercises. Create a new student if you need to.)
         }
     }
 }
