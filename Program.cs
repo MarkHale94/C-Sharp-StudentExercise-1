@@ -110,6 +110,26 @@ namespace StudentExercises {
             }
 
             // List instructors in a particular cohort by using the Where() LINQ method.
+            IEnumerable<Instructor> instructorsInCohort25 = from instructor in instructors
+            where instructor.Cohort == twentyFive
+            select instructor;
+            foreach (Instructor Instructor in instructorsInCohort25) {
+                Console.WriteLine ($"Instructor for Cohort 25: {Instructor.FirstName} {Instructor.LastName}");
+            }
+
+            IEnumerable<Instructor> instructorsInCohort26 = from instructor in instructors
+            where instructor.Cohort == twentySix
+            select instructor;
+            foreach (Instructor Instructor in instructorsInCohort26) {
+                Console.WriteLine ($"Instructor for Cohort 26: {Instructor.FirstName} {Instructor.LastName}");
+            }
+
+            IEnumerable<Instructor> instructorsInCohort27 = from instructor in instructors
+            where instructor.Cohort == twentySeven
+            select instructor;
+            foreach (Instructor Instructor in instructorsInCohort27) {
+                Console.WriteLine ($"Instructor for Cohort 27: {Instructor.FirstName} {Instructor.LastName}");
+            }
         }
     }
 }
