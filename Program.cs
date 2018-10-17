@@ -162,9 +162,54 @@ namespace StudentExercises {
             // }
 
             //Which student is working on the most exercises? Make sure one of your students has more exercises than the others.
-            IEnumerable<Student> studentWithMostExercises = from student in students
-            
-            select student;
+            var studentWithMostExercises = (from s in students
+                // select is like .map and generates a new thing and put it into the final collection
+                select new {
+                    FirstName = s.FirstName,
+                    Exercises = s.Exercises.Count()
+                })
+                // put in order of descending number of exercises
+                .OrderByDescending(s => s.Exercises)
+                // grab just the first one -> first or default if the list is empty
+                .Take(1).ToList()[0];
+                // Console.WriteLine($"Student working on most exercises: {studentWithMostExercises.FirstName} {studentWithMostExercises.Exercises}");
+
+                // 7. How many students in each cohort?
+                var numberOfStudentsInEachCohort = students.GroupBy(c => c.Cohort.Name);
+            // looks at every group of students
+            foreach (var studentGroup in numberOfStudentsInEachCohort)
+            {
+                // key is the thing you grouped by
+                // Console.WriteLine($"{studentGroup.Key} has {studentGroup.Count()} students");
+            }
+
+            // SQL/QUERY WAY
+            var totalStudents = from student in students
+                group student by student.Cohort into sorted
+                select new {
+                    Cohort = sorted.Key,
+                    Students = sorted.ToList()
+                };
+                foreach (var total in totalStudents)
+                {
+                    Console.WriteLine($"Cohort {total.Cohort.Name} has {total.Students.Count()} students");
+                }
+    
+
+
+
+            // Generate a report that displays which students are working on which exercises.
+            foreach (Exercise ex in exercises) {
+                List<string> assignedStudents = new List<string> ();
+
+                foreach (Student stu in students) {
+                    if (stu.Exercises.Contains (ex)) {
+                        assignedStudents.Add (stu.FirstName);
+                    }
+                }
+                // Console.WriteLine ($"{ex.Name} is being worked on by {String.Join(", ", assignedStudents)}");
+            }
+
         }
     }
 }
