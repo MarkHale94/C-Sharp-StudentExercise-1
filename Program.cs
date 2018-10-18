@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Dapper;
+using Microsoft.Data.Sqlite;
 
 namespace StudentExercises {
     class Program {
         static void Main (string[] args) {
+
+            SqliteConnection db = DatabaseInterface.Connection;
+
             // Create 4, or more, exercises.
             Exercise loops = new Exercise ("loops", "Javascript");
             Exercise objects = new Exercise ("objects", "Javascript");
@@ -85,7 +91,7 @@ namespace StudentExercises {
 
             // List exercises for the JavaScript language by using the Where() LINQ method.
             IEnumerable<Exercise> javascriptExercises = from exercise in exercises
-            where exercise.Language == "Javascript"
+            where exercise.ExerciseLanguage == "Javascript"
             select exercise;
 
             // foreach (Exercise exercise in javascriptExercises) {
@@ -144,10 +150,10 @@ namespace StudentExercises {
 
             //Sort the students by their last name.
 
-            IEnumerable<Student> studentLastNameSort = from student in students 
-                orderby student.LastName
-                select student;
-            
+            IEnumerable<Student> studentLastNameSort = from student in students
+            orderby student.LastName
+            select student;
+
             // foreach (Student student in studentLastNameSort) {
             //     Console.WriteLine ($"{student.FirstName} {student.LastName}");
             // }
@@ -163,40 +169,35 @@ namespace StudentExercises {
 
             //Which student is working on the most exercises? Make sure one of your students has more exercises than the others.
             var studentWithMostExercises = (from s in students
-                // select is like .map and generates a new thing and put it into the final collection
-                select new {
-                    FirstName = s.FirstName,
-                    Exercises = s.Exercises.Count()
-                })
+                    // select is like .map and generates a new thing and put it into the final collection
+                    select new {
+                        FirstName = s.FirstName,
+                            Exercises = s.Exercises.Count ()
+                    })
                 // put in order of descending number of exercises
-                .OrderByDescending(s => s.Exercises)
+                .OrderByDescending (s => s.Exercises)
                 // grab just the first one -> first or default if the list is empty
-                .Take(1).ToList()[0];
-                // Console.WriteLine($"Student working on most exercises: {studentWithMostExercises.FirstName} {studentWithMostExercises.Exercises}");
+                .Take (1).ToList () [0];
+            // Console.WriteLine($"Student working on most exercises: {studentWithMostExercises.FirstName} {studentWithMostExercises.Exercises}");
 
-                // 7. How many students in each cohort?
-                var numberOfStudentsInEachCohort = students.GroupBy(c => c.Cohort.Name);
+            // 7. How many students in each cohort?
+            var numberOfStudentsInEachCohort = students.GroupBy (c => c.Cohort.Name);
             // looks at every group of students
-            foreach (var studentGroup in numberOfStudentsInEachCohort)
-            {
+            foreach (var studentGroup in numberOfStudentsInEachCohort) {
                 // key is the thing you grouped by
                 // Console.WriteLine($"{studentGroup.Key} has {studentGroup.Count()} students");
             }
 
             // SQL/QUERY WAY
             var totalStudents = from student in students
-                group student by student.Cohort into sorted
-                select new {
-                    Cohort = sorted.Key,
-                    Students = sorted.ToList()
-                };
-                foreach (var total in totalStudents)
-                {
-                    Console.WriteLine($"Cohort {total.Cohort.Name} has {total.Students.Count()} students");
-                }
-    
-
-
+            group student by student.Cohort into sorted
+            select new {
+                Cohort = sorted.Key,
+                Students = sorted.ToList ()
+            };
+            // foreach (var total in totalStudents) {
+            //     Console.WriteLine ($"Cohort {total.Cohort.Name} has {total.Students.Count()} students");
+            // }
 
             // Generate a report that displays which students are working on which exercises.
             foreach (Exercise ex in exercises) {
@@ -210,6 +211,9 @@ namespace StudentExercises {
                 // Console.WriteLine ($"{ex.Name} is being worked on by {String.Join(", ", assignedStudents)}");
             }
 
+            //Query the database for all the Exercises.
+            List<Exercise> AllExercises = db.Query<Exercise>(@"SELECT * FROM EXERCISES").ToList();
+            AllExercises.ForEach(exercise => Console.WriteLine($"{exercise.ExerciseName}"));
         }
     }
 }
