@@ -213,7 +213,11 @@ namespace StudentExercises {
 
             //Query the database for all the Exercises.
             List<Exercise> AllExercises = db.Query<Exercise>(@"SELECT * FROM EXERCISES").ToList();
-            AllExercises.ForEach(exercise => Console.WriteLine($"{exercise.ExerciseName}"));
+            // AllExercises.ForEach(exercise => Console.WriteLine($"{exercise.ExerciseName}"));
+
+            // Fnd all the exercises in the database where the language is JavaScript.
+            List<Exercise> AllJavaScriptExercises = db.Query<Exercise>(@"SELECT * FROM EXERCISES WHERE ExerciseLanguage=='Javascript'").ToList();
+            AllJavaScriptExercises.ForEach(exercise => Console.WriteLine($"{exercise.ExerciseName}"));
         }
     }
 }
