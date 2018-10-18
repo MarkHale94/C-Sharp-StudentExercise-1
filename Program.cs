@@ -212,12 +212,27 @@ namespace StudentExercises {
             }
 
             //Query the database for all the Exercises.
-            List<Exercise> AllExercises = db.Query<Exercise>(@"SELECT * FROM EXERCISES").ToList();
+            List<Exercise> AllExercises = db.Query<Exercise> (@"SELECT * FROM EXERCISES").ToList ();
             // AllExercises.ForEach(exercise => Console.WriteLine($"{exercise.ExerciseName}"));
 
             // Fnd all the exercises in the database where the language is JavaScript.
-            List<Exercise> AllJavaScriptExercises = db.Query<Exercise>(@"SELECT * FROM EXERCISES WHERE ExerciseLanguage=='Javascript'").ToList();
-            AllJavaScriptExercises.ForEach(exercise => Console.WriteLine($"{exercise.ExerciseName}"));
+            // List<Exercise> AllJavaScriptExercises = db.Query<Exercise> (@"SELECT * FROM EXERCISES WHERE ExerciseLanguage=='Javascript'").ToList ();
+            // AllJavaScriptExercises.ForEach (exercise => Console.WriteLine ($"{exercise.ExerciseName}"));
+
+            //Insert a new exercise into the database.
+            // db.Execute (@"INSERT INTO EXERCISES (ExerciseName, ExerciseLanguage) VALUES ('Planets', 'Javascript');");
+            // List<Exercise> AllJavaScriptExercises = db.Query<Exercise> (@"SELECT * FROM EXERCISES WHERE ExerciseLanguage=='Javascript'").ToList ();
+            // AllJavaScriptExercises.ForEach (exercise => Console.WriteLine ($"{exercise.ExerciseName}"));
+
+            // Find all instructors in the database.Include each instructor's cohort.
+
+
+
+            //Insert a new instructor into the database.Assign the instructor to an existing cohort.
+
+            // Assign an existing exercise to an existing student.
+
+            // Challenge - Find all the students in the database.Include each student's cohort AND each student's list of exercises.
         }
     }
 }
