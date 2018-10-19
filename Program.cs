@@ -181,7 +181,7 @@ namespace StudentExercises {
             // Console.WriteLine($"Student working on most exercises: {studentWithMostExercises.FirstName} {studentWithMostExercises.Exercises}");
 
             // 7. How many students in each cohort?
-            var numberOfStudentsInEachCohort = students.GroupBy (c => c.Cohort.Name);
+            var numberOfStudentsInEachCohort = students.GroupBy (c => c.Cohort.CohortName);
             // looks at every group of students
             foreach (var studentGroup in numberOfStudentsInEachCohort) {
                 // key is the thing you grouped by
@@ -226,6 +226,18 @@ namespace StudentExercises {
 
             // Find all instructors in the database.Include each instructor's cohort.
 
+            db.Query<Instructor, Cohort, Instructor>(@"
+                SELECT  i.FirstName,
+                        i.LastName,
+                        c.Id,
+                        c.CohortName
+                FROM Instructor i
+                JOIN Cohort c on c.Id = I.Id
+            ",(instructor, cohort)=>
+            {
+                instructor.Cohort = cohort;
+                return instructor;
+            }).ToList().ForEach(ins => Console.WriteLine($"{ins.FirstName} {ins.LastName} works in the {ins.Cohort.CohortName}"));
 
 
             //Insert a new instructor into the database.Assign the instructor to an existing cohort.

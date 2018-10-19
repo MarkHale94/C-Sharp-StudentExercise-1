@@ -18,6 +18,8 @@ namespace StudentExercises
             SlackHandle = slackHandle;
             Cohort = cohort;
         }
+        public Student ()
+        {}
 
     }
 }

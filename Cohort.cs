@@ -5,15 +5,17 @@ namespace StudentExercises
 {
     public class Cohort
     {
-        public string Name { get; set; }
+        public string CohortName { get; set; }
         public List<Student> Students { get; set; } 
         public List<Instructor> Instructors { get; set; } 
 
         // constructor
         public Cohort (string name) 
         {
-            Name = name;
+            CohortName = name;
         }
+        public Cohort () 
+        {}
 
 
     }
